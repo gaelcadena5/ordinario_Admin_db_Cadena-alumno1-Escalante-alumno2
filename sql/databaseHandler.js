@@ -99,7 +99,7 @@ class DatabaseHandler {
     const params = [id];
     return this.executeQuery(query, params);
   }
-  async insertCalificacion({ estudiante_id, materia_id, calificacion, usuario_creacio, fecha_creacion }) {
+  async insertCalificacion({ estudiante_id, maestro_id, materia_id, calificacion, usuario_creacio, fecha_creacion }) {
     if (!usuario_creacio || !fecha_creacion) {
         usuario_creacio = 'ADMIN';
         fecha_creacion = new Date().toISOString().slice(0, 19).replace('T', ' ');
