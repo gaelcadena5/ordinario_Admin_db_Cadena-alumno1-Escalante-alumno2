@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS ordinario_modelo_admin;
 CREATE DATABASE ordinario_modelo_admin;
 USE ordinario_modelo_admin;
 
@@ -41,6 +42,7 @@ CREATE TABLE calificaciones (
     estudiante_id INT NOT NULL,
     maestro_id INT NOT NULL,
     materia_id INT NOT NULL,
+    calificacion DECIMAL NOT NULL,
     create_user VARCHAR(100) NOT NULL,
     create_date DATETIME NOT NULL,
     FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id),
