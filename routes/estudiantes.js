@@ -2,10 +2,11 @@ const express = require('express');
 const databaseHandler = require('../sql/databaseHandler');
 const router = express.Router();
 
+const handler = new databaseHandler()
 let estudiantes = [];
 
 router.get('/', (req, res) => {
-    const estudiantes = databaseHandler.getEstudiantes();
+    const estudiantes = handler.getEstudiantes();
     res.status(200).json(estudiantes);
 });
 

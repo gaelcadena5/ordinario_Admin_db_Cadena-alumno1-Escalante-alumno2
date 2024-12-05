@@ -19,6 +19,7 @@ class DatabaseHandler {
   // Método para obtener estudiantes
   async getEstudiantes() {
     const query = 'SELECT * FROM estudiantes';
+    console.log("Get estudiantes llamado")
     return this.executeQuery(query);
   }
   // Método para obtener maestros
