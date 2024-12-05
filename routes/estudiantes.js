@@ -25,10 +25,10 @@ router.get('/:id',  async (req, res) => {
         return res.status(500).json({ error: 'Error al obtener los estudiantes'});
     }
 });
-router.post('/addEstudiante', (req, res) => {
+router.post('/addEstudiante',async (req, res) => {
     const nuevoEstudiante = req.body;
     try {
-        const response = handler.insertEstudiante(nuevoEstudiante);
+        const response = await handler.insertEstudiante(nuevoEstudiante);
         return res.status(201).json({ message: 'Estudiante insertado correctamente',  estudiante: nuevoEstudiante, response: response });
     } catch (error) {
         return res.status(500).json({ error: 'Error al insertar el estudiante' });
