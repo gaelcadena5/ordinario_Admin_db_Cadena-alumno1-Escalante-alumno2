@@ -8,12 +8,13 @@ class DatabaseHandler {
 
   // Método genérico para ejecutar consultas
   async executeQuery(query, params = []) {
-    this.connection.query(query, params, (err, results) => {
-    if (err) {
-        throw err;
-    } else {
-        return results;
-    }
+    return new Promise((resolve, reject) => {
+      this.connection.query(query, params, (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(results);
+      });
     });
   }
   // Método para obtener estudiantes
@@ -29,6 +30,11 @@ class DatabaseHandler {
   }
   // Método para insertar un estudiante
   async insertEstudiante({ nombre, apellidos, email, matricula, edad, semestre, usuario_creacio, fecha_creacion }) {
+    if (!usuario_creacio || !fecha_creacion) {
+        usuario_creacio = 'ADMIN';
+        fecha_creacion = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    }
+
     const query = `
       INSERT INTO estudiantes 
       (nombre, apellidos, email, matricula, edad, semestre, usuario_creacio, fecha_creacion) 
@@ -39,6 +45,10 @@ class DatabaseHandler {
   }
   // Método para insertar un maestro
   async insertMaestro({ nombre, edad, telefono, correo, usuario_creacio, fecha_creacion }) {
+    if (!usuario_creacio || !fecha_creacion) {
+        usuario_creacio = 'ADMIN';
+        fecha_creacion = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    }
     const query = `
       INSERT INTO maestros 
       (nombre, edad, telefono, correo, usuario_creacio, fecha_creacion) 
@@ -68,6 +78,10 @@ class DatabaseHandler {
     return this.executeQuery(query, params);
   }
   async insertMateria({ nombre, descripcion, usuario_creacio, fecha_creacion }) {
+    if (!usuario_creacio || !fecha_creacion) {
+        usuario_creacio = 'ADMIN';
+        fecha_creacion = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    }
     const query = `
       INSERT INTO materias
       (nombre, profesor_id, create_user, create_date)
@@ -86,6 +100,10 @@ class DatabaseHandler {
     return this.executeQuery(query, params);
   }
   async insertCalificacion({ estudiante_id, materia_id, calificacion, usuario_creacio, fecha_creacion }) {
+    if (!usuario_creacio || !fecha_creacion) {
+        usuario_creacio = 'ADMIN';
+        fecha_creacion = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    }
     const query = `
       INSERT INTO calificaciones
       (estudiante_id, maestro_id, materia_id,calificacion, create_user, create_date)

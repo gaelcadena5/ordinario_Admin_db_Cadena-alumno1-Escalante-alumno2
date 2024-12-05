@@ -3,17 +3,36 @@ const databaseHandler = require('../sql/databaseHandler');
 const router = express.Router();
 
 const handler = new databaseHandler()
-let estudiantes = [];
 
-router.get('/', (req, res) => {
-    const estudiantes = handler.getEstudiantes();
-    res.status(200).json(estudiantes);
+router.get('/',  async (req, res) => {
+    try {
+        const response = await handler.getEstudiantes();
+        return res.status(200).json(response);
+    }
+    catch (error) {
+        console.error('Error al obtener estudiantes:', error);
+        return res.status(500).json({ error: 'Error al obtener los estudiantes'});
+    }
 });
-
-router.post('/addEstudiante', (req, res) => {
+router.get('/:id',  async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await handler.getEstudianteById(id);
+        return res.status(200).json(response);
+    }
+    catch (error) {
+        console.error('Error al obtener estudiantes:', error);
+        return res.status(500).json({ error: 'Error al obtener los estudiantes'});
+    }
+});
+router.post('/addEstudiante',async (req, res) => {
     const nuevoEstudiante = req.body;
-    databaseHandler.insertEstudiante(nuevoEstudiante);
-    res.status(201).json({ mensaje: 'Estudiante creado', estudiante: nuevoEstudiante });
+    try {
+        const response = await handler.insertEstudiante(nuevoEstudiante);
+        return res.status(201).json({ message: 'Estudiante insertado correctamente',  estudiante: nuevoEstudiante, response: response });
+    } catch (error) {
+        return res.status(500).json({ error: 'Error al insertar el estudiante' });
+    }
 });
 
 module.exports = router;
